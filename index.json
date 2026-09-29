@@ -1,0 +1,26 @@
+{
+  "name": "MoonHub Official Extensions Repository",
+  "version": "1.0.0",
+  "extensions": [
+    {
+      "id": "otakudesu",
+      "name": "Otakudesu",
+      "version": "1.0.0",
+      "type": "anime",
+      "lang": "id",
+      "isNsfw": false,
+      "icon": "https://raw.githubusercontent.com/angganesia/moonhub-extensions/main/icons/otakudesu.png",
+      "scriptUrl": "https://raw.githubusercontent.com/angganesia/moonhub-extensions/main/anime/otakudesu.js"
+    },
+    {
+      "id": "kiryuu",
+      "name": "Kiryuu",
+      "version": "1.0.0",
+      "type": "manga",
+      "lang": "id",
+      "isNsfw": false,
+      "icon": "https://raw.githubusercontent.com/angganesia/moonhub-extensions/main/icons/kiryuu.png",
+      "scriptUrl": "https://raw.githubusercontent.com/angganesia/moonhub-extensions/main/manga/kiryuu.js"
+    }
+  ]
+}
