@@ -139,6 +139,7 @@ const Otakudesu = {
 
     const sources = [];
 
+    // 1. Server Default (Desustream)
     const defaultIframe = $(".responsive-embed iframe").attr("src") || $("iframe").attr("src") || "";
     if (defaultIframe) {
       sources.push({
@@ -152,28 +153,66 @@ const Otakudesu = {
       });
     }
 
+    // 2. Mirror Servers (360p, 480p, 720p)
     const qualities = [ "360p", "480p", "720p" ];
-    qualities.forEach((q) => {
-      $(".mirrorstream ul.m" + q + " li").each((_, el) => {
+
+    for (const q of qualities) {
+      const items = $(".mirrorstream ul.m" + q + " li");
+      for (let i = 0; i < items.length; i++) {
+        const el = items[ i ];
         const anchor = $(el).find("a");
         const serverName = anchor.text().trim() || $(el).text().trim();
         const dataContent = anchor.attr("data-content") || "";
 
         if (serverName && dataContent) {
+          // Buka data-content menjadi URL iframe asli
+          const resolvedUrl = await this.resolveStreamUrl(dataContent);
+
           sources.push({
             server: serverName,
             quality: q,
+            url: resolvedUrl || "",
             dataContent: dataContent,
             headers: {
               Referer: this.metadata.baseUrl,
             },
           });
         }
-      });
-    });
+      }
+    }
 
     return sources;
   },
+
+  // Helper untuk menukar data-content ke URL iframe embed asli via AJAX
+  async resolveStreamUrl(dataContent) {
+    try {
+      // Decode base64 payload jika berbentuk JSON string
+      const payload = JSON.parse(atob(dataContent));
+
+      const formData = new URLSearchParams();
+      for (const key in payload) {
+        formData.append(key, payload[ key ]);
+      }
+
+      // Request POST ke endpoint AJAX Otakudesu
+      const resText = await bridge.fetchText(this.metadata.baseUrl + "/wp-admin/admin-ajax.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: formData.toString(),
+      });
+
+      const $ = bridge.parseHTML(resText);
+      const iframeSrc = $("iframe").attr("src") || "";
+      return iframeSrc;
+    } catch (e) {
+      return "";
+    }
+  },
+
 };
 
 module.exports = Otakudesu;
