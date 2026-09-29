@@ -1,4 +1,4 @@
-const Anoboy = {
+const AnoboyBe = {
   metadata: {
     id: "anoboybe",
     name: "AnoboyBe",
@@ -14,8 +14,8 @@ const Anoboy = {
     try {
       const targetUrl =
         page > 1
-          ? `${this.metadata.baseUrl}/page/${page}/`
-          : `${this.metadata.baseUrl}/`;
+          ? this.metadata.baseUrl + "/page/" + page + "/"
+          : this.metadata.baseUrl + "/";
       const html = await bridge.fetchText(targetUrl);
       const $ = bridge.parseHTML(html);
 
@@ -36,7 +36,7 @@ const Anoboy = {
             title: title,
             cover: cover.startsWith("http")
               ? cover
-              : `${this.metadata.baseUrl}${cover}`,
+              : this.metadata.baseUrl + cover,
             type: "anime",
           });
         }
@@ -52,7 +52,8 @@ const Anoboy = {
   // 2. Pencarian Anime
   async search(query, page = 1) {
     try {
-      const targetUrl = `${this.metadata.baseUrl}/?s=${encodeURIComponent(query)}`;
+      const targetUrl =
+        this.metadata.baseUrl + "/?s=" + encodeURIComponent(query);
       const html = await bridge.fetchText(targetUrl);
       const $ = bridge.parseHTML(html);
 
@@ -69,7 +70,7 @@ const Anoboy = {
             title: title,
             cover: cover.startsWith("http")
               ? cover
-              : `${this.metadata.baseUrl}${cover}`,
+              : this.metadata.baseUrl + cover,
             type: "anime",
           });
         }
@@ -88,7 +89,8 @@ const Anoboy = {
       const html = await bridge.fetchText(itemUrl);
       const $ = bridge.parseHTML(html);
 
-      const title = $(".entry-title").text().trim() \vert{ }\vert{ } $("h1").first().text().trim();
+      const title =
+        $(".entry-title").text().trim() \vert{ }\vert{ } $("h1").first().text().trim();
       const cover = $(".entry-content img").first().attr("src") || "";
       const synopsis = $(".entry-content p").first().text().trim();
 
@@ -99,12 +101,14 @@ const Anoboy = {
 
       const episodes = [];
 
-      // Anoboy biasanya langsung menyediakan player di halaman episode atau mengurutkan link episode terkait
       $(".entry-content a").each((_, el) => {
         const href = $(el).attr("href") || "";
         const text = $(el).text().trim();
 
-        if (href.includes(this.metadata.baseUrl) && text.toLowerCase().includes("episode")) {
+        if (
+          href.includes(this.metadata.baseUrl) &&
+          text.toLowerCase().includes("episode")
+        ) {
           episodes.push({
             name: text,
             url: href,
@@ -113,7 +117,6 @@ const Anoboy = {
         }
       });
 
-      // Jika halaman saat ini adalah episode tunggal
       if (episodes.length === 0) {
         episodes.push({
           name: title,
@@ -126,7 +129,7 @@ const Anoboy = {
         title,
         cover: cover.startsWith("http")
           ? cover
-          : `${this.metadata.baseUrl}${cover}`,
+          : this.metadata.baseUrl + cover,
         synopsis,
         genres,
         episodes,
@@ -145,21 +148,20 @@ const Anoboy = {
 
       const sources = [];
 
-      // 1. Ambil Iframe Utama
-      const iframeSrc = $("#v2iframe").attr("src") \vert{ }\vert{ } $("iframe").first().attr("src") || "";
+      const iframeSrc =
+        $("#v2iframe").attr("src") \vert{ }\vert{ } $("iframe").first().attr("src") || "";
 
       if (iframeSrc) {
         sources.push({
           server: "Anoboy Player",
           quality: "Auto",
-          url: iframeSrc.startsWith("//") ? `https:${iframeSrc}` : iframeSrc,
+          url: iframeSrc.startsWith("//") ? "https:" + iframeSrc : iframeSrc,
           headers: {
             Referer: this.metadata.baseUrl,
           },
         });
       }
 
-      // 2. Mirror/Server Alternatif jika ada (misal di elemen select/option atau button)
       $("#selectonline option, .server-option").each((_, el) => {
         const val = $(el).val() \vert{ }\vert{ }$(el).attr("data-url") || "";
         const name = $(el).text().trim() || "Server Alternative";
@@ -168,7 +170,7 @@ const Anoboy = {
           sources.push({
             server: name,
             quality: "Auto",
-            url: val.startsWith("//") ? `https:${val}` : val,
+            url: val.startsWith("//") ? "https:" + val : val,
             headers: {
               Referer: this.metadata.baseUrl,
             },
@@ -184,4 +186,4 @@ const Anoboy = {
   },
 };
 
-module.exports = Anoboy;
+module.exports = AnoboyBe;
