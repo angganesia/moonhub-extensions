@@ -34,7 +34,6 @@ const Otakudesu = {
     return results;
   },
 
-  // 1. Perluasan search(): Ambil Title, Genre, Status, Rating, & Cover
   async search(query, page = 1) {
     const targetUrl = this.metadata.baseUrl + "/?s=" + encodeURIComponent(query) + "&post_type=anime";
     const html = await bridge.fetchText(targetUrl);
@@ -46,9 +45,11 @@ const Otakudesu = {
       const anchor = $(el).find("h2 a").first();
       const title = anchor.text().trim();
       const href = anchor.attr("href") || anchor.attr("title") || "";
-      const cover = $(el).find("img").attr("src") || "";
 
-      // Ekstraksi info tambahan dari elemen .set
+      // Ambil gambar cover (jika ada tag img di li)
+      let cover = $(el).find("img").attr("src") || "";
+
+      // Ekstraksi info tambahan
       let genres = [];
       let status = "";
       let rating = "";
@@ -56,7 +57,6 @@ const Otakudesu = {
       $(el).find(".set").each((_, setEl) => {
         const text = $(setEl).text().trim();
         if (text.includes("Genres") || text.includes("Genre")) {
-          // Mengambil daftar genre dari tag link <a> di dalam .set
           $(setEl).find("a").each((_, gAnchor) => {
             genres.push($(gAnchor).text().trim());
           });
@@ -71,7 +71,7 @@ const Otakudesu = {
         results.push({
           id: href,
           title: title,
-          cover: cover,
+          cover: cover || "https://via.placeholder.com/150", // Fallback jika tidak ada gambar
           genres: genres.length ? genres : [ "N/A" ],
           status: status || "N/A",
           rating: rating || "N/A",
