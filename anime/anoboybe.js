@@ -100,7 +100,7 @@ const AnoboyBe = {
       console.error("[" + this.metadata.id + "] Error search:", error);
       return [];
     }
-  }
+  },
 
 
   // 3. Detail Anime & List Episode
