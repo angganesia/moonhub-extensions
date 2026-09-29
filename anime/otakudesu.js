@@ -139,19 +139,47 @@ const Otakudesu = {
     const html = await bridge.fetchText(episodeUrl);
     const $ = bridge.parseHTML(html);
 
-    const iframeSrc = $(".responsive-embed iframe").attr("src") || $("iframe").attr("src") || "";
+    const sources = [];
 
-    return [
-      {
+    // 1. Ambil Server Default (Default Embed Iframe)
+    const defaultIframe = $(".responsive-embed iframe").attr("src") \vert{ }\vert{ } $("iframe").attr("src") || "";
+    if (defaultIframe) {
+      sources.push({
+        server: "Default (Desustream)",
         quality: "Auto",
-        url: iframeSrc,
-        isHls: iframeSrc.includes(".m3u8"),
+        url: defaultIframe,
+        isHls: defaultIframe.includes(".m3u8"),
         headers: {
-          "Referer": this.metadata.baseUrl,
-        },
-      },
-    ];
-  },
+          "Referer": this.metadata.baseUrl
+        }
+      });
+    }
+
+    // 2. Parse Daftar Mirror Server (360p, 480p, 720p)
+    const qualities = [ "360p", "480p", "720p" ];
+
+    qualities.forEach((q) => {
+      $(`.mirrorstream ul.m${q} li`).each((_, el) => {
+        const anchor = $(el).find("a");
+        const serverName = anchor.text().trim() || $(el).text().trim();
+        const dataContent = anchor.attr("data-content") || "";
+
+        if (serverName && dataContent) {
+          sources.push({
+            server: serverName,
+            quality: q,
+            dataContent: dataContent, // Data payload untuk request AJAX resolver jika dibutuhkan
+            headers: {
+              "Referer": this.metadata.baseUrl
+            }
+          });
+        }
+      });
+    });
+
+    return sources;
+  }
+
 };
 
 module.exports = Otakudesu;
