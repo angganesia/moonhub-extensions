@@ -34,18 +34,27 @@ const Otakudesu = {
     const $ = bridge.parseHTML(html);
 
     const results = [];
-    $(".chlist li").each((_, el) => {
-      const anchor = $(el).find("a");
-      results.push({
-        id: anchor.attr("href") || "",
-        title: anchor.text().trim(),
-        cover: $(el).find("img").attr("src") || "",
-        type: "anime"
-      });
+
+    // Menggunakan selector yang sesuai dengan HTML mentah: ul.chivsrc li
+    $("ul.chivsrc li").each((_, el) => {
+      const anchor = $(el).find("h2 a").first();
+      const title = anchor.text().trim();
+      const href = anchor.attr("href") || anchor.attr("title") || "";
+      const cover = $(el).find("img").attr("src") || "";
+
+      if (title && href) {
+        results.push({
+          id: href,
+          title: title,
+          cover: cover,
+          type: "anime"
+        });
+      }
     });
 
     return results;
   },
+
 
   async getDetail(itemUrl) {
     const html = await bridge.fetchText(itemUrl);
