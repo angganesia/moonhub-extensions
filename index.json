@@ -1,17 +1,17 @@
 {
   "name": "MoonHub Official Extensions Repository",
-  "updatedAt": "2026-09-29T16:54:50.506Z",
+  "updatedAt": "2026-09-29T16:56:12.622Z",
   "version": "1.0.0",
   "extensions": [
     {
-      "id": "anoboy",
-      "name": "Anoboy",
+      "id": "anoboybe",
+      "name": "AnoboyBe",
       "version": "1.0.0",
       "type": "anime",
       "lang": "id",
       "isNsfw": false,
       "icon": "https://www.google.com/s2/favicons?domain=anoboy.be&sz=128",
-      "scriptUrl": "https://raw.githubusercontent.com/angganesia/moonhub-extensions/main/anime/anoboy.js"
+      "scriptUrl": "https://raw.githubusercontent.com/angganesia/moonhub-extensions/main/anime/anoboybe.js"
     },
     {
       "id": "otakudesu",

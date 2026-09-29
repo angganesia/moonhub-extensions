@@ -1,7 +1,7 @@
 const Anoboy = {
   metadata: {
-    id: "anoboy",
-    name: "Anoboy",
+    id: "anoboybe",
+    name: "AnoboyBe",
     baseUrl: "https://anoboy.be",
     version: "1.0.0",
     type: "anime",
