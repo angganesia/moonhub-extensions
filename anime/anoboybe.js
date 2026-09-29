@@ -64,13 +64,31 @@ const AnoboyBe = {
         const href = $(el).attr("href") || "";
         const cover = $(el).find("img").attr("src") || "";
 
+        let genres = [];
+        let status = "";
+        let rating = "";
+
+        $(el).find(".set").each((_, setEl) => {
+          const text = $(setEl).text().trim();
+          if (text.includes("Genre") || text.includes("Genres")) {
+            $(setEl).find("a").each((_, gAnchor) => {
+              genres.push($(gAnchor).text().trim());
+            });
+          } else if (text.includes("Status")) {
+            status = text.replace("Status", "").replace(":", "").trim();
+          } else if (text.includes("Rating")) {
+            rating = text.replace("Rating", "").replace(":", "").trim();
+          }
+        });
+
         if (title && href) {
           results.push({
             id: href,
             title: title,
-            cover: cover.startsWith("http")
-              ? cover
-              : this.metadata.baseUrl + cover,
+            cover: cover || "https://via.placeholder.com/150",
+            genres: genres.length ? genres : [ "N/A" ],
+            status: status || "N/A",
+            rating: rating || "N/A",
             type: "anime",
           });
         }
