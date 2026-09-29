@@ -94,4 +94,4 @@ const Otakudesu = {
   }
 };
 
-export default Otakudesu;
+module.exports = Otakudesu;
