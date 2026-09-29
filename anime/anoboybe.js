@@ -90,7 +90,7 @@ const AnoboyBe = {
       const $ = bridge.parseHTML(html);
 
       const title =
-        $(".entry-title").text().trim() \vert{ }\vert{ } $("h1").first().text().trim();
+        $(".entry-title").text().trim() || $("h1").first().text().trim();
       const cover = $(".entry-content img").first().attr("src") || "";
       const synopsis = $(".entry-content p").first().text().trim();
 
@@ -149,7 +149,7 @@ const AnoboyBe = {
       const sources = [];
 
       const iframeSrc =
-        $("#v2iframe").attr("src") \vert{ }\vert{ } $("iframe").first().attr("src") || "";
+        $("#v2iframe").attr("src") || $("iframe").first().attr("src") || "";
 
       if (iframeSrc) {
         sources.push({
@@ -163,7 +163,7 @@ const AnoboyBe = {
       }
 
       $("#selectonline option, .server-option").each((_, el) => {
-        const val = $(el).val() \vert{ }\vert{ }$(el).attr("data-url") || "";
+        const val = $(el).val() || $(el).attr("data-url") || "";
         const name = $(el).text().trim() || "Server Alternative";
 
         if (val && val !== iframeSrc) {
