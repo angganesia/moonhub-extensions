@@ -1,0 +1,18 @@
+{
+  "name": "moonhub-extensions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node scripts/build-index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angganesia/moonhub-extensions.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/angganesia/moonhub-extensions/issues"
+  },
+  "homepage": "https://github.com/angganesia/moonhub-extensions#readme"
+}
