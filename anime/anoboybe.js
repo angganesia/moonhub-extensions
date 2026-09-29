@@ -59,7 +59,7 @@ const AnoboyBe = {
 
       const results = [];
 
-      $(".listupd a").each((_, el) => {
+      $(".listupd").each((_, el) => {
         const title = $(el).attr("title") || $(el).text().trim();
         const href = $(el).attr("href") || "";
         const cover = $(el).find("img").attr("src") || "";
