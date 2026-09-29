@@ -1,8 +1,7 @@
 {
   "name": "moonhub-extensions",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Repository untuk extension moonhub",
   "scripts": {
     "build": "node scripts/build-index.js"
   },

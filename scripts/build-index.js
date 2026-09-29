@@ -19,9 +19,9 @@ categories.forEach((type) => {
     const filePath = path.join(dirPath, file);
     const content = fs.readFileSync(filePath, "utf-8");
 
-    // Regex ekstraksi metadata dari file .js
     const idMatch = content.match(/id:\s*["']([^"']+)["']/);
     const nameMatch = content.match(/name:\s*["']([^"']+)["']/);
+    const baseUrlMatch = content.match(/baseUrl:\s*["']([^"']+)["']/); // Ambil baseUrl
     const versionMatch = content.match(/version:\s*["']([^"']+)["']/);
     const langMatch = content.match(/lang:\s*["']([^"']+)["']/);
     const nsfwMatch = content.match(/isNsfw:\s*(true|false)/);
@@ -29,9 +29,23 @@ categories.forEach((type) => {
     if (idMatch && nameMatch) {
       const id = idMatch[ 1 ];
       const name = nameMatch[ 1 ];
+      const baseUrl = baseUrlMatch ? baseUrlMatch[ 1 ] : "";
       const version = versionMatch ? versionMatch[ 1 ] : "1.0.0";
       const lang = langMatch ? langMatch[ 1 ] : "id";
       const isNsfw = nsfwMatch ? nsfwMatch[ 1 ] === "true" : false;
+
+      // Cek apakah ada icon custom di folder /icons/id.png
+      const localIconPath = path.join(__dirname, "..", "icons", `${id}.png`);
+      let iconUrl = "";
+
+      if (fs.existsSync(localIconPath)) {
+        // 1. Prioritas Utama: Icon kustom berkualitas tinggi dari repositori
+        iconUrl = `${BASE_RAW_URL}/icons/${id}.png`;
+      } else if (baseUrl) {
+        // 2. Fallback Otomatis: Ambil Favicon via Google API (Format PNG Resolusi Jernih)
+        const domain = baseUrl.replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+        iconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+      }
 
       extensions.push({
         id,
@@ -40,7 +54,7 @@ categories.forEach((type) => {
         type,
         lang,
         isNsfw,
-        icon: `${BASE_RAW_URL}/icons/${id}.png`,
+        icon: iconUrl,
         scriptUrl: `${BASE_RAW_URL}/${type}/${file}`,
       });
     }
