@@ -35,7 +35,7 @@ const Otakudesu = {
 
     const results = [];
 
-    // Menggunakan selector yang sesuai dengan HTML mentah: ul.chivsrc li
+    // Cheerio langsung paham selector kompleks ul.chivsrc li
     $("ul.chivsrc li").each((_, el) => {
       const anchor = $(el).find("h2 a").first();
       const title = anchor.text().trim();
@@ -54,7 +54,6 @@ const Otakudesu = {
 
     return results;
   },
-
 
   async getDetail(itemUrl) {
     const html = await bridge.fetchText(itemUrl);
