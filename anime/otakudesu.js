@@ -3,7 +3,7 @@ const Otakudesu = {
     id: "otakudesu",
     name: "Otakudesu",
     baseUrl: "https://otakudesu.blog",
-    version: "1.1.0",
+    version: "1.2.0",
     type: "anime",
     lang: "id",
     isNsfw: false,
@@ -45,25 +45,22 @@ const Otakudesu = {
       const anchor = $(el).find("h2 a").first();
       const title = anchor.text().trim();
       const href = anchor.attr("href") || anchor.attr("title") || "";
+      const cover = $(el).find("img").attr("src") || "";
 
-      // Ambil gambar cover (jika ada tag img di li)
-      let cover = $(el).find("img").attr("src") || "";
-
-      // Ekstraksi info tambahan
       let genres = [];
       let status = "";
       let rating = "";
 
       $(el).find(".set").each((_, setEl) => {
         const text = $(setEl).text().trim();
-        if (text.includes("Genres") || text.includes("Genre")) {
+        if (text.includes("Genre") || text.includes("Genres")) {
           $(setEl).find("a").each((_, gAnchor) => {
             genres.push($(gAnchor).text().trim());
           });
         } else if (text.includes("Status")) {
-          status = text.replace(/Status\s*:\s*/i, "").trim();
+          status = text.replace("Status", "").replace(":", "").trim();
         } else if (text.includes("Rating")) {
-          rating = text.replace(/Rating\s*:\s*/i, "").trim();
+          rating = text.replace("Rating", "").replace(":", "").trim();
         }
       });
 
@@ -71,7 +68,7 @@ const Otakudesu = {
         results.push({
           id: href,
           title: title,
-          cover: cover || "https://via.placeholder.com/150", // Fallback jika tidak ada gambar
+          cover: cover || "https://via.placeholder.com/150",
           genres: genres.length ? genres : [ "N/A" ],
           status: status || "N/A",
           rating: rating || "N/A",
@@ -83,22 +80,20 @@ const Otakudesu = {
     return results;
   },
 
-  // 2. Perluasan getDetail(): Ambil Title, Cover, Sinopsis, Info Detail, & Episode
   async getDetail(itemUrl) {
     const html = await bridge.fetchText(itemUrl);
     const $ = bridge.parseHTML(html);
 
-    const title = $(".fotoanime .infozin .infozings p:contains('Judul')").text().replace("Judul:", "").trim() || $(".jjudul").text().trim();
+    const title = $(".jjudul").text().trim() || $(".fotoanime .infozin .infozings p").first().text().replace("Judul:", "").trim();
     const cover = $(".fotoanime img").attr("src") || "";
     const synopsis = $(".sinopsc").text().trim();
 
-    // Parse info detail (Japanese Title, Skor, Producer, Tipe, Total Episode, Durasi, Rilis)
     const info = {};
     $(".fotoanime .infozin .infozings p").each((_, el) => {
       const text = $(el).text().trim();
       if (text.includes(":")) {
         const parts = text.split(":");
-        const key = parts[ 0 ].trim().toLowerCase().replace(/\s+/g, "_");
+        const key = parts[ 0 ].trim().toLowerCase().replace(" ", "_");
         const value = parts.slice(1).join(":").trim();
         if (key && value) {
           info[ key ] = value;
@@ -106,13 +101,16 @@ const Otakudesu = {
       }
     });
 
-    // Parse daftar genre
     const genres = [];
-    $(".fotoanime .infozin .infozings p:contains('Genre') a").each((_, el) => {
-      genres.push($(el).text().trim());
+    $(".fotoanime .infozin .infozings p").each((_, el) => {
+      const text = $(el).text().trim();
+      if (text.toLowerCase().includes("genre")) {
+        $(el).find("a").each((_, gEl) => {
+          genres.push($(gEl).text().trim());
+        });
+      }
     });
 
-    // Parse daftar episode
     const episodes = [];
     $(".episodelist ul li").each((_, el) => {
       const anchor = $(el).find("a").first();
@@ -129,7 +127,7 @@ const Otakudesu = {
       title,
       cover,
       synopsis,
-      info, // Objek berisi detail lengkap (skor, durasi, status, studio, dll)
+      info,
       genres,
       episodes,
     };
@@ -141,8 +139,7 @@ const Otakudesu = {
 
     const sources = [];
 
-    // 1. Ambil Server Default (Default Embed Iframe)
-    const defaultIframe = $(".responsive-embed iframe").attr("src") \vert{ }\vert{ } $("iframe").attr("src") || "";
+    const defaultIframe = $(".responsive-embed iframe").attr("src") || $("iframe").attr("src") || "";
     if (defaultIframe) {
       sources.push({
         server: "Default (Desustream)",
@@ -150,16 +147,14 @@ const Otakudesu = {
         url: defaultIframe,
         isHls: defaultIframe.includes(".m3u8"),
         headers: {
-          "Referer": this.metadata.baseUrl
-        }
+          Referer: this.metadata.baseUrl,
+        },
       });
     }
 
-    // 2. Parse Daftar Mirror Server (360p, 480p, 720p)
     const qualities = [ "360p", "480p", "720p" ];
-
     qualities.forEach((q) => {
-      $(`.mirrorstream ul.m${q} li`).each((_, el) => {
+      $(".mirrorstream ul.m" + q + " li").each((_, el) => {
         const anchor = $(el).find("a");
         const serverName = anchor.text().trim() || $(el).text().trim();
         const dataContent = anchor.attr("data-content") || "";
@@ -168,18 +163,17 @@ const Otakudesu = {
           sources.push({
             server: serverName,
             quality: q,
-            dataContent: dataContent, // Data payload untuk request AJAX resolver jika dibutuhkan
+            dataContent: dataContent,
             headers: {
-              "Referer": this.metadata.baseUrl
-            }
+              Referer: this.metadata.baseUrl,
+            },
           });
         }
       });
     });
 
     return sources;
-  }
-
+  },
 };
 
 module.exports = Otakudesu;
