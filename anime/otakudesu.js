@@ -2,7 +2,7 @@ const Otakudesu = {
   metadata: {
     id: "otakudesu",
     name: "Otakudesu",
-    baseUrl: "https://otakudesu.cloud",
+    baseUrl: "https://otakudesu.blog",
     version: "1.0.0",
     type: "anime",
     lang: "id",
