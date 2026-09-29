@@ -59,47 +59,49 @@ const AnoboyBe = {
 
       const results = [];
 
-      $(".listupd").each((_, el) => {
-        const title = $(el).attr("title") || $(el).text().trim();
-        const href = $(el).attr("href") || "";
-        const cover = $(el).find("img").attr("src") || "";
+      // Iterasi pada setiap elemen kartu anime (.bsx a)
+      $(".listupd article .bsx a").each((_, el) => {
+        const anchor = $(el);
+        const href = anchor.attr("href") || "";
+        const title =
+          anchor.attr("title") ||
+          anchor.find("h2").text().trim() ||
+          anchor.find(".tt").text().trim();
 
-        let genres = [];
-        let status = "";
-        let rating = "";
+        const cover =
+          anchor.find("img").attr("src") ||
+          anchor.find("img").attr("data-src") ||
+          "";
 
-        $(el).find(".set").each((_, setEl) => {
-          const text = $(setEl).text().trim();
-          if (text.includes("Genre") || text.includes("Genres")) {
-            $(setEl).find("a").each((_, gAnchor) => {
-              genres.push($(gAnchor).text().trim());
-            });
-          } else if (text.includes("Status")) {
-            status = text.replace("Status", "").replace(":", "").trim();
-          } else if (text.includes("Rating")) {
-            rating = text.replace("Rating", "").replace(":", "").trim();
-          }
-        });
+        // Mengambil Status (misal: "Completed" atau "Ongoing")
+        let status =
+          anchor.find(".status").text().trim() ||
+          anchor.find(".epx").text().trim() ||
+          "N/A";
+
+        // Mengambil Tipe (misal: "TV", "Special", "Live Action")
+        let typez = anchor.find(".typez").text().trim();
 
         if (title && href) {
           results.push({
             id: href,
             title: title,
-            cover: cover || "https://via.placeholder.com/150",
-            genres: genres.length ? genres : [ "N/A" ],
-            status: status || "N/A",
-            rating: rating || "N/A",
-            type: "anime",
+            cover: cover.startsWith("http")
+              ? cover
+              : this.metadata.baseUrl + cover,
+            status: status,
+            type: typez || "anime",
           });
         }
       });
 
       return results;
     } catch (error) {
-      console.error(`[${this.metadata.id}] Error search:`, error);
+      console.error("[" + this.metadata.id + "] Error search:", error);
       return [];
     }
-  },
+  }
+
 
   // 3. Detail Anime & List Episode
   async getDetail(itemUrl) {
