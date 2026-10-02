@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "id": "anoboybe",
+    "name": "AnoboyBe",
+    "baseUrl": "https://anoboy.be",
+    "version": "1.0.0",
+    "type": "anime",
+    "lang": "id",
+    "isNsfw": false
+  },
+  "endpoints": {
+    "latest": "/",
+    "latestPage": "/page/{page}/",
+    "search": "/?s={query}"
+  },
+  "selectors": {
+    "latest": {
+      "item": ".home_index a, .content .home_index div.sitemap",
+      "titleAttr": "title",
+      "titleFallback": ".jjudul",
+      "hrefAttr": "href",
+      "coverAttr": "img",
+      "excludeKeyword": "/category/"
+    },
+    "search": {
+      "item": ".listupd article .bsx a",
+      "titleAttr": "title",
+      "coverAttr": "img",
+      "status": ".status, .epx",
+      "typez": ".typez"
+    },
+    "detail": {
+      "title": ".entry-title, h1.entry-title",
+      "cover": ".thumbook .thumb img, .bigcontent img",
+      "synopsis": ".bixbox.synp .entry-content p",
+      "genres": ".genxed a",
+      "status": ".spe span",
+      "episodes": ".eplister ul li a",
+      "epNum": ".epl-num",
+      "epTitle": ".epl-title",
+      "epDate": ".epl-date"
+    },
+    "stream": {
+      "defaultIframe": "#pembed iframe",
+      "mirrorOption": ".mirror option",
+      "downloadLink": ".soraurlx a"
+    }
+  }
+}
