@@ -3,7 +3,7 @@
     "id": "anoboybe",
     "name": "AnoboyBe",
     "baseUrl": "https://anoboy.be",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "anime",
     "lang": "id",
     "isNsfw": false
@@ -23,11 +23,9 @@
       "excludeKeyword": "/category/"
     },
     "search": {
-      "item": ".listupd article .bsx a",
+      "item": ".bsx a, .excstf a, .listupd .bsx a",
       "titleAttr": "title",
-      "coverAttr": "img",
-      "status": ".status, .epx",
-      "typez": ".typez"
+      "coverAttr": "img"
     },
     "detail": {
       "title": ".entry-title, h1.entry-title",
