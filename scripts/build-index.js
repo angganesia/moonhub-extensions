@@ -13,50 +13,47 @@ categories.forEach((type) => {
   const dirPath = path.join(__dirname, "..", type);
   if (!fs.existsSync(dirPath)) return;
 
-  const files = fs.readdirSync(dirPath).filter((file) => file.endsWith(".js"));
+  const files = fs.readdirSync(dirPath).filter((file) => file.endsWith(".json"));
 
   files.forEach((file) => {
     const filePath = path.join(dirPath, file);
-    const content = fs.readFileSync(filePath, "utf-8");
 
-    const idMatch = content.match(/id:\s*["']([^"']+)["']/);
-    const nameMatch = content.match(/name:\s*["']([^"']+)["']/);
-    const baseUrlMatch = content.match(/baseUrl:\s*["']([^"']+)["']/); // Ambil baseUrl
-    const versionMatch = content.match(/version:\s*["']([^"']+)["']/);
-    const langMatch = content.match(/lang:\s*["']([^"']+)["']/);
-    const nsfwMatch = content.match(/isNsfw:\s*(true|false)/);
+    try {
+      const fileContent = fs.readFileSync(filePath, "utf-8");
+      const jsonData = JSON.parse(fileContent);
 
-    if (idMatch && nameMatch) {
-      const id = idMatch[ 1 ];
-      const name = nameMatch[ 1 ];
-      const baseUrl = baseUrlMatch ? baseUrlMatch[ 1 ] : "";
-      const version = versionMatch ? versionMatch[ 1 ] : "1.0.0";
-      const lang = langMatch ? langMatch[ 1 ] : "id";
-      const isNsfw = nsfwMatch ? nsfwMatch[ 1 ] === "true" : false;
+      const metadata = jsonData.metadata || {};
+      const id = metadata.id;
+      const name = metadata.name;
+      const baseUrl = metadata.baseUrl || "";
+      const version = metadata.version || "1.0.0";
+      const lang = metadata.lang || "id";
+      const isNsfw = metadata.isNsfw === true;
 
-      // Cek apakah ada icon custom di folder /icons/id.png
-      const localIconPath = path.join(__dirname, "..", "icons", `${id}.png`);
-      let iconUrl = "";
+      if (id && name) {
+        const localIconPath = path.join(__dirname, "..", "icons", `${id}.png`);
+        let iconUrl = "";
 
-      if (fs.existsSync(localIconPath)) {
-        // 1. Prioritas Utama: Icon kustom berkualitas tinggi dari repositori
-        iconUrl = `${BASE_RAW_URL}/icons/${id}.png`;
-      } else if (baseUrl) {
-        // 2. Fallback Otomatis: Ambil Favicon via Google API (Format PNG Resolusi Jernih)
-        const domain = baseUrl.replace(/^https?:\/\//, "").replace(/\/.*$/, "");
-        iconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+        if (fs.existsSync(localIconPath)) {
+          iconUrl = `${BASE_RAW_URL}/icons/${id}.png`;
+        } else if (baseUrl) {
+          const domain = baseUrl.replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+          iconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+        }
+
+        extensions.push({
+          id,
+          name,
+          version,
+          type,
+          lang,
+          isNsfw,
+          icon: iconUrl,
+          scriptUrl: `${BASE_RAW_URL}/${type}/${file}`,
+        });
       }
-
-      extensions.push({
-        id,
-        name,
-        version,
-        type,
-        lang,
-        isNsfw,
-        icon: iconUrl,
-        scriptUrl: `${BASE_RAW_URL}/${type}/${file}`,
-      });
+    } catch (error) {
+      console.error(`❌ Gagal mem-parse file ${file}:`, error.message);
     }
   });
 });
