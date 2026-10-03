@@ -23,9 +23,10 @@
       "excludeKeyword": "/category/"
     },
     "search": {
-      "item": ".bsx a, .excstf a, .listupd .bsx a",
-      "titleAttr": "title",
-      "coverAttr": "img"
+      "item": "article.bs",
+      "titleAttr": "h2[itemprop=\"headline\"]",
+      "coverAttr": "img.ts-post-image",
+      "link": ".bsx a"
     },
     "detail": {
       "title": ".entry-title, h1.entry-title",

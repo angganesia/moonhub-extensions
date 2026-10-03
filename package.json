@@ -1,9 +1,10 @@
 {
   "name": "moonhub-extensions",
   "version": "1.0.0",
-  "description": "Repository untuk extension moonhub",
+  "description": "Repository extension moonhub",
   "scripts": {
-    "build": "node scripts/build-index.js"
+    "build": "node scripts/build-index.js",
+    "dev": "nodemon scripts/tes.mjs"
   },
   "repository": {
     "type": "git",
@@ -13,5 +14,10 @@
   "bugs": {
     "url": "https://github.com/angganesia/moonhub-extensions/issues"
   },
-  "homepage": "https://github.com/angganesia/moonhub-extensions#readme"
+  "homepage": "https://github.com/angganesia/moonhub-extensions#readme",
+  "dependencies": {
+    "axios": "^1.20.0",
+    "cheerio": "^1.2.0",
+    "nodemon": "^3.1.14"
+  }
 }
