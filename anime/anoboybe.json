@@ -32,7 +32,7 @@
       "title": ".entry-title, h1.entry-title",
       "cover": ".thumbook .thumb img, .bigcontent img",
       "synopsis": ".bixbox.synp .entry-content p",
-      "genres": ".genxed a",
+      "genres": ".info-content .genxed a",
       "status": ".spe span",
       "episodes": ".eplister ul li a",
       "epNum": ".epl-num",
