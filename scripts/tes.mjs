@@ -1,3 +1,4 @@
+// tes.mjs
 import axios from "axios";
 import * as cheerio from "cheerio";
 import g from "../anime/anoboybe.json" with { type: "json" };
@@ -6,7 +7,8 @@ class ExtensionManager {
   static async search(qwery) {
     try {
       let qwerys = g.endpoints.search;
-      const fullUrl = g.metadata.baseUrl + qwerys.replace("{query}", qwery);
+      const searchEndpoint = qwerys.replace("{page}", "1").replace("{query}", encodeURIComponent(qwery));
+      const fullUrl = g.metadata.baseUrl + searchEndpoint;
 
       const response = await axios.get(fullUrl, {
         headers: {
@@ -33,7 +35,60 @@ class ExtensionManager {
 
       return data;
     } catch (error) {
-      console.error("Terjadi kesalahan saat scraping:", error.message);
+      console.error("Terjadi kesalahan saat scraping search:", error.message);
+    }
+  }
+
+  static async getOptionList() {
+    try {
+      const optionListEndpoint = g.endpoints.optionList;
+      const fullUrl = g.metadata.baseUrl + optionListEndpoint;
+
+      const response = await axios.get(fullUrl, {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        },
+      });
+
+      const $ = cheerio.load(response.data);
+      const optionConfig = g.selectors.optionList;
+      const dynamicFilterGroups = {};
+
+      if (optionConfig.groups && Array.isArray(optionConfig.groups)) {
+        optionConfig.groups.forEach((group) => {
+          const options = [];
+          $(group.item).each((_, element) => {
+            const el = $(element);
+            const inputEl = el.find("input");
+            const labelEl = el.find("label");
+
+            const value = inputEl.attr("value");
+            const label = labelEl.text().trim() || inputEl.attr("id") || "";
+
+            if (
+              label &&
+              value !== undefined &&
+              !label.toLowerCase().includes("semua") &&
+              label.toLowerCase() !== "all"
+            ) {
+              if (!options.some((opt) => opt.value === value)) {
+                options.push({ label, value });
+              }
+            }
+          });
+
+          dynamicFilterGroups[ group.key ] = {
+            title: group.title,
+            options: options,
+          };
+        });
+      }
+
+      return dynamicFilterGroups;
+    } catch (error) {
+      console.error("Terjadi kesalahan saat scraping optionList:", error.message);
+      return {};
     }
   }
 
@@ -50,13 +105,11 @@ class ExtensionManager {
 
       const $ = cheerio.load(response.data);
 
-      // Mengambil daftar genre
       const genres = [];
       $(detail.genres).each((_, el) => {
         genres.push($(el).text().trim());
       });
 
-      // Mengambil daftar episode
       const episodes = [];
       $(detail.episodes).each((_, el) => {
         const epLink = $(el).attr("href");
@@ -89,12 +142,10 @@ class ExtensionManager {
 }
 
 async function start() {
-  const stage1 = await ExtensionManager.search("one piece");
-  console.log(stage1);
-  if (stage1 && stage1.length > 0) {
-    const stage2 = await ExtensionManager.detail(stage1[ 0 ].link);
-    console.log(stage2);
-  }
+  console.log("--- TEST 1: Menguji Ketujuh Opsi Filter Dinamis Server ---");
+  const options = await ExtensionManager.getOptionList();
+  console.log(JSON.stringify(options, null, 2));
+
 }
 
 start();

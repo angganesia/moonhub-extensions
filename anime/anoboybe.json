@@ -3,7 +3,7 @@
     "id": "anoboybe",
     "name": "AnoboyBe",
     "baseUrl": "https://anoboy.be",
-    "version": "1.1.1",
+    "version": "1.2.2",
     "type": "anime",
     "lang": "id",
     "isNsfw": false
@@ -37,9 +37,57 @@
       "link": ".bsx a"
     },
     "optionList": {
-      "item": ".filter-dropdown select option, .genres-list li a, .filter-group input",
-      "labelAttr": "text",
-      "valueAttr": "value"
+      "groups": [
+        {
+          "key": "genres",
+          "title": "Genre",
+          "item": ".filter.dropdown:has(input[name='genre[]']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "season",
+          "title": "Season",
+          "item": ".filter.dropdown:has(input[name='season[]']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "studio",
+          "title": "Studio",
+          "item": ".filter.dropdown:has(input[name='studio[]']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "status",
+          "title": "Status",
+          "item": ".filter.dropdown:has(input[name='status']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "type",
+          "title": "Type",
+          "item": ".filter.dropdown:has(input[name='type']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "sub",
+          "title": "Sub",
+          "item": ".filter.dropdown:has(input[name='sub']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "order",
+          "title": "Order by",
+          "item": ".filter.dropdown:has(input[name='order']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        }
+      ]
     },
     "detail": {
       "title": ".entry-title, h1.entry-title",
