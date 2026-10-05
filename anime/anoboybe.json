@@ -3,7 +3,7 @@
     "id": "anoboybe",
     "name": "AnoboyBe",
     "baseUrl": "https://anoboy.be",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "type": "anime",
     "lang": "id",
     "isNsfw": false
@@ -13,7 +13,7 @@
     "latestPage": "/page/{page}/",
     "search": "/page/{page}/?s={query}",
     "filter": "/anime/?page={page}&{query}",
-    "genreList": "/anime/"
+    "optionList": "/anime/"
   },
   "selectors": {
     "latest": {
@@ -36,8 +36,8 @@
       "coverAttr": "img.ts-post-image",
       "link": ".bsx a"
     },
-    "genreList": {
-      "item": ".filter-dropdown select[name='genre[]'] option, .genres-list li a",
+    "optionList": {
+      "item": ".filter-dropdown select option, .genres-list li a, .filter-group input",
       "labelAttr": "text",
       "valueAttr": "value"
     },

@@ -16,7 +16,7 @@ Setiap ekstensi wajib memuat metadata serta pemetaan *endpoints* dan *selectors*
   "metadata": {
     "id": "nama_unik_ekstensi",
     "name": "Nama Ekstensi",
-    "baseUrl": "[https://situs-target.com](https://situs-target.com)",
+    "baseUrl": "https://situs-target.com",
     "version": "1.1.0",
     "type": "anime", 
     "lang": "id",
@@ -27,7 +27,7 @@ Setiap ekstensi wajib memuat metadata serta pemetaan *endpoints* dan *selectors*
     "latestPage": "/page/{page}/",
     "search": "/page/{page}/?s={query}",
     "filter": "/anime/?page={page}&{query}",
-    "genreList": "/anime/"
+    "optionList": "/anime/"
   },
   "selectors": {
     "latest": {
@@ -47,7 +47,7 @@ Setiap ekstensi wajib memuat metadata serta pemetaan *endpoints* dan *selectors*
       "coverAttr": "...",
       "link": "..."
     },
-    "genreList": {
+    "optionList": {
       "item": "...",
       "labelAttr": "text",
       "valueAttr": "value"
