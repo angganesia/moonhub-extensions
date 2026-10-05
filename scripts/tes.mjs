@@ -129,7 +129,13 @@ class ExtensionManager {
         title: $(detail.title).text().trim(),
         cover: $(detail.cover).attr("src"),
         synopsis: $(detail.synopsis).text().trim(),
-        status: $(detail.status).first().text().trim(),
+        status: $(detail.status).text().trim(),
+        studio: $(detail.studio).text().trim(),
+        released: $(detail.released).text().trim(),
+        season: $(detail.season).text().trim(),
+        type: $(detail.type).text().trim(),
+        director: $(detail.director).text().trim(),
+        trailer: $(detail.trailer).attr("href"),
         genres: genres,
         episodes: episodes,
       };
@@ -142,8 +148,7 @@ class ExtensionManager {
 }
 
 async function start() {
-  console.log("--- TEST 1: Menguji Ketujuh Opsi Filter Dinamis Server ---");
-  const options = await ExtensionManager.getOptionList();
+  const options = await ExtensionManager.detail("https://anoboy.be/anime/kenka-dokugaku/");
   console.log(JSON.stringify(options, null, 2));
 
 }
