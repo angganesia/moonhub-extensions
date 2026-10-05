@@ -3,7 +3,7 @@
     "id": "anoboybe",
     "name": "AnoboyBe",
     "baseUrl": "https://anoboy.be",
-    "version": "1.2.3",
+    "version": "1.2.2",
     "type": "anime",
     "lang": "id",
     "isNsfw": false
@@ -39,21 +39,21 @@
     "optionList": {
       "groups": [
         {
-          "key": "genre%5B%5D",
+          "key": "genres",
           "title": "Genre",
           "item": ".filter.dropdown:has(input[name='genre[]']) ul.dropdown-menu li",
           "labelAttr": "text",
           "valueAttr": "value"
         },
         {
-          "key": "season%5B%5D",
+          "key": "season",
           "title": "Season",
           "item": ".filter.dropdown:has(input[name='season[]']) ul.dropdown-menu li",
           "labelAttr": "text",
           "valueAttr": "value"
         },
         {
-          "key": "studio%5B%5D",
+          "key": "studio",
           "title": "Studio",
           "item": ".filter.dropdown:has(input[name='studio[]']) ul.dropdown-menu li",
           "labelAttr": "text",
