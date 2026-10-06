@@ -3,7 +3,7 @@
     "id": "kiryuu",
     "name": "Kiryuu",
     "baseUrl": "https://v7.kiryuu.to",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "type": "manga",
     "lang": "id",
     "isNsfw": false
@@ -24,12 +24,12 @@
       "coverAttr": "",
       "excludeKeyword": ""
     },
-    "search": {
+      "search": {
       "method": "POST",
       "payload": {
         "query": "{query}"
       },
-      "item": "#searchResults a.flex.items-center.gap-4",
+      "item": "#searchResults a[href]",
       "titleAttr": "h3",
       "coverAttr": "img",
       "link": "href",

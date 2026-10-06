@@ -1,6 +1,6 @@
 {
   "name": "MoonHub Official Extensions Repository",
-  "updatedAt": "2026-10-06T06:15:00.063Z",
+  "updatedAt": "2026-10-06T08:11:44.092Z",
   "version": "1.0.0",
   "extensions": [
     {
@@ -16,7 +16,7 @@
     {
       "id": "kiryuu",
       "name": "Kiryuu",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "type": "manga",
       "lang": "id",
       "isNsfw": false,
