@@ -1,0 +1,81 @@
+{
+  "metadata": {
+    "id": "kiryuu",
+    "name": "Kiryuu",
+    "baseUrl": "https://v7.kiryuu.to",
+    "version": "1.0.1",
+    "type": "manga",
+    "lang": "id",
+    "isNsfw": false
+  },
+  "endpoints": {
+    "latest": "/",
+    "latestPage": "/page/{page}/",
+    "search": "/wp-admin/admin-ajax.php?nonce=3bae339d49&action=search",
+    "filter": "/manga/?page={page}&{query}",
+    "optionList": "/manga/"
+  },
+  "selectors": {
+    "latest": {
+      "item": "",
+      "titleAttr": "",
+      "titleFallback": "",
+      "hrefAttr": "",
+      "coverAttr": "",
+      "excludeKeyword": ""
+    },
+    "search": {
+      "method": "POST",
+      "payload": {
+        "query": "{query}"
+      },
+      "item": "#searchResults a.flex.items-center.gap-4",
+      "titleAttr": "h3",
+      "coverAttr": "img",
+      "link": "href",
+      "synopsisAttr": "p"
+    },
+    "filter": {
+      "item": "",
+      "titleAttr": "",
+      "coverAttr": "",
+      "link": ""
+    },
+    "optionList": {
+      "groups": [
+        {
+          "key": "",
+          "title": "",
+          "item": "",
+          "labelAttr": "",
+          "valueAttr": ""
+        }
+      ]
+    },
+    "detail": {
+      "json": {
+        "item": "script[type='application/ld+json']",
+        "type": "Book",
+        "type1": "ComicSeries"
+      },
+      "title": "[itemprop='name']",
+      "cover": "[itemprop='image'] img",
+      "synopsis": "[data-show='false'][itemprop='description']",
+      "genres": "[itemprop='genre']",
+      "status": "",
+      "released": "",
+      "type": "",
+      "author": "",
+      "episodes": "#chapter-list > div[data-chapter-number]",
+      "epLink": "a",
+      "epNum": "span",
+      "epTitle": ".flex.flex-row.gap-1.font-medium.text-base span",
+      "epDate": "time"
+    },
+    "stream": {
+      "defaultIframe": "section[data-image-data='1'] img",
+      "mirrorOption": "",
+      "downloadLink": ""
+    }
+  }
+}
