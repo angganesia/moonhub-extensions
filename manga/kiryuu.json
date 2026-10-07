@@ -3,17 +3,17 @@
     "id": "kiryuu",
     "name": "Kiryuu",
     "baseUrl": "https://v7.kiryuu.to",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "type": "manga",
     "lang": "id",
     "isNsfw": false
   },
-   "endpoints": {
+  "endpoints": {
     "latest": "/",
-    "latestPage": "/page/{page}/",
-    "search": "/wp-admin/admin-ajax.php?nonce={nonce}&action=search",
-    "filter": "/manga/?page={page}&{query}",
-    "optionList": "/manga/"
+    "latestPage": "/",
+    "search": "/",
+    "filter": "/",
+    "optionList": "/"
   },
   "selectors": {
     "latest": {
@@ -24,8 +24,10 @@
       "coverAttr": "",
       "excludeKeyword": ""
     },
-      "search": {
+    "search": {
       "method": "POST",
+      "ajaxUrl": "/wp-admin/admin-ajax.php",
+      "nonceSelector": "form[hx-post*='admin-ajax.php']",
       "payload": {
         "query": "{query}"
       },
