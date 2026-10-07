@@ -8,10 +8,10 @@
     "lang": "id",
     "isNsfw": false
   },
-  "endpoints": {
+   "endpoints": {
     "latest": "/",
     "latestPage": "/page/{page}/",
-    "search": "/wp-admin/admin-ajax.php?nonce=3bae339d49&action=search",
+    "search": "/wp-admin/admin-ajax.php?nonce={nonce}&action=search",
     "filter": "/manga/?page={page}&{query}",
     "optionList": "/manga/"
   },
