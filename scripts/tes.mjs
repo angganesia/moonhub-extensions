@@ -211,6 +211,7 @@ class ExtensionManager {
         synopsis: $(g.selectors.detail.synopsis).text().trim(),
         cover: $(g.selectors.detail.cover).attr("src") || "tidak ketemu",
         genres,
+        type: $(g.selectors.detail.type).text().trim(),
         jsonData: json,
         episodes
       };
@@ -252,7 +253,7 @@ async function start() {
   const mangaLink = "https://v7.kiryuu.to/manga/one-piece/chapter-1.147848/";
   const linkDetail = "https://v7.kiryuu.to/manga/time-healer-ceres/"
 
-  const detailResult = await ExtensionManager.search("Time Heal");
+  const detailResult = await ExtensionManager.detail(linkDetail);
   console.log("Hasil Detail:", JSON.stringify(detailResult, null, 2));
 }
 

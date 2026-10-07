@@ -3,7 +3,7 @@
     "id": "kiryuu",
     "name": "Kiryuu",
     "baseUrl": "https://v7.kiryuu.to",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "type": "manga",
     "lang": "id",
     "isNsfw": false
@@ -66,7 +66,7 @@
       "genres": "[itemprop='genre']",
       "status": "",
       "released": "",
-      "type": "",
+      "type": "div:has(> h4 span:contains('Type')) p",
       "author": "",
       "episodes": "#chapter-list > div[data-chapter-number]",
       "epLink": "a",
