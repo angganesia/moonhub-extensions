@@ -3,7 +3,7 @@
     "id": "kiryuu",
     "name": "Kiryuu",
     "baseUrl": "https://v7.kiryuu.to",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "type": "manga",
     "lang": "id",
     "isNsfw": false
@@ -60,22 +60,22 @@
         "type": "Book",
         "type1": "ComicSeries"
       },
-      "title": "[itemprop='name']",
-      "cover": "[itemprop='image'] img",
-      "synopsis": "[data-show='false'][itemprop='description']",
-      "genres": "[itemprop='genre']",
+      "title": "body > main > article > section > div > div.flex.w-full.flex-col.gap-3.px-1.md\\:px-4.py-4 > div.flex.flex-col.gap-1.md\\:gap-2 > h1",
+      "cover": "body > main > article > section > div > div.flex.w-full.h-auto.shrink-0.flex-col.gap-3.rounded-lg.sm\\:w-\\[17rem\\].xl\\:p-0.lg\\:p-0.md\\:p-0.px-2.sm\\:p-0 > div.relative.contents > img",
+      "synopsis": "#tabpanel-description > div > div > div:nth-child(2) > div.p-4.bg-secondary\\/50.rounded-lg.hidden.data-\\[show\\=true\\]\\:block.prose.prose-base.prose-invert.text-inherit\\!.max-w-full.\\*\\*\\:\\[a\\]\\:text-accent > p",
+      "genres": "#tabpanel-description > div > div > div.flex.gap-1.md\\:gap-2.mt-2 > div",
       "status": "",
-      "released": "",
-      "type": "div:has(> h4 span:contains('Type')) p",
+      "released": "body > main > article > section > div > div.flex.w-full.h-auto.shrink-0.flex-col.gap-3.rounded-lg.sm\\:w-\\[17rem\\].xl\\:p-0.lg\\:p-0.md\\:p-0.px-2.sm\\:p-0 > div.space-y-2 > div:nth-child(1) > div > p",
+      "type": "body > main > article > section > div > div.flex.w-full.h-auto.shrink-0.flex-col.gap-3.rounded-lg.sm\\:w-\\[17rem\\].xl\\:p-0.lg\\:p-0.md\\:p-0.px-2.sm\\:p-0 > div.space-y-2 > div:nth-child(4) > div > p",
       "author": "",
-      "episodes": "#chapter-list > div[data-chapter-number]",
+      "episodes": "#chapter-list > div",
       "epLink": "a",
       "epNum": "span",
-      "epTitle": ".flex.flex-row.gap-1.font-medium.text-base span",
-      "epDate": "time"
+      "epTitle": "div.flex.w-full.flex-col.pr-3\\.5 > div.flex.flex-row.gap-1.font-medium.text-base > span",
+      "epDate": "div.flex.w-full.flex-col.pr-3\\.5 > div.flex.justify-between.items-center.text-sm.text-gray-400 > time"
     },
     "stream": {
-      "defaultIframe": "section[data-image-data='1'] img",
+      "defaultIframe": "body > main > div.min-h-screen > div > div.relative > section > section > img",
       "mirrorOption": "",
       "downloadLink": ""
     }
