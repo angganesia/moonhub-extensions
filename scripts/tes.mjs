@@ -28,24 +28,68 @@ class ExtensionManager {
     }
   }
 
-  static async search(query) {
+    static async search(query) {
     try {
       const searchConfig = g.selectors.search;
-      const endpoint = g.endpoints.search;
+      const method = (searchConfig.method || "GET").toUpperCase();
 
       let response;
+      let fullUrl = g.metadata.baseUrl + (g.endpoints.search || "");
+      let nonce = "";
 
-      if (searchConfig.method && searchConfig.method.toUpperCase() === "POST") {
-        const fullUrl = g.metadata.baseUrl + endpoint;
+      // Jika menggunakan POST atau membutuhkan nonce, ambil base URL terlebih dahulu
+      if (method === "POST" || searchConfig.nonceSelector) {
+        const baseRes = await axios.get(g.metadata.baseUrl, {
+          headers: {
+            "User-Agent":
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+          }
+        });
+        const $base = cheerio.load(baseRes.data);
 
-        const payloadData = {};
-        if (searchConfig.payload) {
-          for (const [key, value] of Object.entries(searchConfig.payload)) {
-            payloadData[key] = value.replace("{query}", query);
+        // Ekstrak nonce dari selector form hx-post atau elemen yang ditentukan
+        if (searchConfig.nonceSelector) {
+          const hxPostAttr = $base(searchConfig.nonceSelector).attr("hx-post") || "";
+          const nonceMatch = hxPostAttr.match(/nonce=([a-zA-Z0-9]+)/);
+          if (nonceMatch && nonceMatch[1]) {
+            nonce = nonceMatch[1];
           }
         }
 
-        response = await axios.post(fullUrl, new URLSearchParams(payloadData), {
+        // Fallback pencarian nonce di dalam tag script jika tidak ketemu dari hx-post
+        if (!nonce) {
+          $base("script").each((_, el) => {
+            const scriptContent = $base(el).html() || "";
+            const match = scriptContent.match(/["']?nonce["']?\s*[:=]\s*["']([a-f0-9]+)["']/i);
+            if (match && match[1]) {
+              nonce = match[1];
+              return false;
+            }
+          });
+        }
+
+        // Susun URL admin-ajax.php lengkap dengan nonce jika menggunakan endpoint tersebut
+        if (searchConfig.ajaxUrl) {
+          fullUrl = g.metadata.baseUrl + searchConfig.ajaxUrl;
+        }
+      }
+
+      if (method === "POST") {
+        const payloadData = {};
+        if (searchConfig.payload) {
+          for (const [key, value] of Object.entries(searchConfig.payload)) {
+            let processedVal = String(value).replace("{query}", query);
+            processedVal = processedVal.replace("{nonce}", nonce);
+            payloadData[key] = processedVal;
+          }
+        }
+
+        // Tambahkan parameter nonce pada URL jika diperlukan oleh endpoint AJAX
+        const ajaxTargetUrl = fullUrl.includes("admin-ajax.php") && !fullUrl.includes("nonce=") 
+          ? `${fullUrl}?nonce=${nonce}&action=search` 
+          : fullUrl;
+
+        response = await axios.post(ajaxTargetUrl, new URLSearchParams(payloadData), {
           headers: {
             "User-Agent":
               "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -54,10 +98,11 @@ class ExtensionManager {
           }
         });
       } else {
-        const searchEndpoint = endpoint
+        const searchEndpoint = g.endpoints.search
           .replace("{page}", "1")
-          .replace("{query}", encodeURIComponent(query));
-        const fullUrl = g.metadata.baseUrl + searchEndpoint;
+          .replace("{query}", encodeURIComponent(query))
+          .replace("{nonce}", nonce);
+        fullUrl = g.metadata.baseUrl + searchEndpoint;
 
         response = await axios.get(fullUrl, {
           headers: {
@@ -67,23 +112,25 @@ class ExtensionManager {
         });
       }
 
+      console.log(response.data)
+
       const $ = cheerio.load(response.data);
       const data = [];
 
       $(searchConfig.item).each((index, element) => {
         const el = $(element);
         const link = el.attr("href");
-        const title = el.find(searchConfig.titleAttr).text().trim();
-        const img = el.find(searchConfig.coverAttr).attr("src");
-        const synopsis = el.find(searchConfig.synopsisAttr).text().trim();
+        const title = el.find(searchConfig.titleAttr).text().trim() || el.attr(searchConfig.titleAttr);
+        const img = el.find(searchConfig.coverAttr).attr("src") || el.find(searchConfig.coverAttr).attr("data-src");
+        const synopsis = searchConfig.synopsisAttr ? el.find(searchConfig.synopsisAttr).text().trim() : "";
 
-        if (link && link.includes("/manga/")) {
+        if (link) {
           data.push({
             index: data.length + 1,
             title,
             link,
             img,
-            synopsis
+            ...(synopsis ? { synopsis } : {})
           });
         }
       });
@@ -91,6 +138,7 @@ class ExtensionManager {
       return data;
     } catch (error) {
       console.error("Terjadi kesalahan saat scraping search:", error.message);
+      return [];
     }
   }
 
@@ -213,7 +261,8 @@ class ExtensionManager {
         genres,
         type: $(g.selectors.detail.type).text().trim(),
         jsonData: json,
-        episodes
+        episodes,
+        epidodeLength: episodes.length
       };
     } catch (error) {
       console.error(
@@ -253,7 +302,7 @@ async function start() {
   const mangaLink = "https://v7.kiryuu.to/manga/one-piece/chapter-1.147848/";
   const linkDetail = "https://v7.kiryuu.to/manga/time-healer-ceres/"
 
-  const detailResult = await ExtensionManager.detail(linkDetail);
+  const detailResult = await ExtensionManager.detail("https://v7.kiryuu.to/manga/one-piece/");
   console.log("Hasil Detail:", JSON.stringify(detailResult, null, 2));
 }
 
