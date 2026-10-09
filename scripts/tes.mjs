@@ -1,7 +1,7 @@
 // tes.mjs
 import axios from "axios";
 import * as cheerio from "cheerio";
-import g from "../anime/samehadaku.json" with { type: "json" };
+import g from "../anime/anoboybe.json" with { type: "json" };
 
 const host = g.metadata.baseUrl;
 const endpoints = g.endpoints;
@@ -70,9 +70,9 @@ async function scrap(action, url, args = {}) {
         const selectorStream = selectors.stream;
 
         const defaultIframe = $(selectorStream.defaultIframe).attr("src");
-        const urlDetail = $("html > body > main#content > div.post-single > div#breadcrumbs > ol > li:nth-of-type(3) > a").attr("href") || $("html > body > div#content > div.wrapper > div.postbody > article#post-18492 > div.megavid > div.mvelement > div.naveps.bignav > div.nvs.nvsc > a").attr("href") || ""
-        console.log(defaultIframe);
-        console.log(urlDetail);
+        const urlDetail = $(selectorStream.urlDetail).attr("href") || ""
+        console.log("defaultIframe: " + defaultIframe);
+        console.log("urlDetail: " + urlDetail);
         break;
       case "search":
         const selectorSearch = selectors.search;
