@@ -2,8 +2,9 @@
   "metadata": {
     "id": "kiryuu",
     "name": "Kiryuu",
+      "icon": "https://www.google.com/s2/favicons?domain=v7.kiryuu.to&sz=128",
     "baseUrl": "https://v7.kiryuu.to",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "type": "manga",
     "lang": "id",
     "isNsfw": false
