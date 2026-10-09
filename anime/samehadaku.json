@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "id": "samehadaku",
+    "name": "Samehadaku",
+    "baseUrl": "https://v2.samehadaku.how",
+    "version": "1.0.0",
+    "type": "anime",
+    "lang": "id",
+    "isNsfw": false
+  },
+  "endpoints": {
+    "latest": "/",
+    "latestPage": "/page/{page}/",
+    "search": "/page/{page}/?s={query}",
+    "filter": "/anime/?page={page}&{query}",
+    "optionList": "/anime/"
+  },
+  "selectors": {
+    "latest": {
+      "item": ".home_index a, .content .home_index div.sitemap",
+      "titleAttr": "title",
+      "titleFallback": ".jjudul",
+      "hrefAttr": "href",
+      "coverAttr": "img",
+      "excludeKeyword": "/category/"
+    },
+    "search": {
+      "item": "html > body > main#content > div > div.flex-grow.min-w-0.w-full > div > div.relat > div:nth-of-type(1) > article",
+      "titleAttr": "div.animposx > a > div.data > div.title > h2",
+      "coverAttr": "div.animposx > a > div.content-thumb > img.anmsa",
+      "link": "div.animposx > a > div.data > div.title > h2"
+    },
+    "filter": {
+      "item": "html > body > main#content > div > div.flex-grow.min-w-0.w-full > div > div.relat > div:nth-of-type(1) > article",
+      "titleAttr": "div.animposx > a > div.data > div.title > h2",
+      "coverAttr": "div.animposx > a > div.content-thumb > img.anmsa",
+      "link": "div.animposx > a > div.data > div.title > h2"
+    },
+    "optionList": {
+      "groups": [
+        {
+          "key": "genre%5B%5D",
+          "title": "Genre",
+          "item": ".filter.dropdown:has(input[name='genre[]']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "season%5B%5D",
+          "title": "Season",
+          "item": ".filter.dropdown:has(input[name='season[]']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "studio%5B%5D",
+          "title": "Studio",
+          "item": ".filter.dropdown:has(input[name='studio[]']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "status",
+          "title": "Status",
+          "item": ".filter.dropdown:has(input[name='status']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "type",
+          "title": "Type",
+          "item": ".filter.dropdown:has(input[name='type']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "sub",
+          "title": "Sub",
+          "item": ".filter.dropdown:has(input[name='sub']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        },
+        {
+          "key": "order",
+          "title": "Order by",
+          "item": ".filter.dropdown:has(input[name='order']) ul.dropdown-menu li",
+          "labelAttr": "text",
+          "valueAttr": "value"
+        }
+      ]
+    },
+    "detail": {
+      "title": "#content > div > div.flex-grow.min-w-0.w-full > div:nth-of-type(2) > h1",
+      "cover": "#content > div > div.flex-grow.min-w-0.w-full > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(1) > img.w-full.h-full.object-cover",
+      "synopsis": "#content > div > div.flex-grow.min-w-0.w-full > div:nth-of-type(3) > div > div.flex-grow.min-w-0.space-y-4 > div:nth-of-type(1) > p",
+      "genres": "#content > div > div.flex-grow.min-w-0.w-full > div:nth-of-type(3) > div > div.flex-grow.min-w-0.space-y-4 > div:nth-of-type(2) > a",
+      "status": "#content > div > div.flex-grow.min-w-0.w-full > div:nth-of-type(7) > div > div:nth-of-type(4) > span:nth-of-type(2)",
+      "studio": "#content > div > div.flex-grow.min-w-0.w-full > div:nth-of-type(7) > div > div:nth-of-type(10) > span:nth-of-type(2)",
+      "released": "#content > div > div.flex-grow.min-w-0.w-full > div:nth-of-type(7) > div > div:nth-of-type(12) > span:nth-of-type(2)",
+      "season": "#content > div > div.flex-grow.min-w-0.w-full > div:nth-of-type(7) > div > div:nth-of-type(9) > span:nth-of-type(2)",
+      "type": "#content > div > div.flex-grow.min-w-0.w-full > div:nth-of-type(7) > div > div:nth-of-type(5) > span:nth-of-type(2)",
+      "director": "#content > div > div.flex-grow.min-w-0.w-full > div:nth-of-type(7) > div > div:nth-of-type(11) > span:nth-of-type(2)",
+      "trailer": "",
+      "episodes": {
+        "item": "#content > div > div.flex-grow.min-w-0.w-full > div:nth-of-type(6) > div:nth-of-type(2) > div",
+        "epNum": "a.w-full.h-full.flex.items-center.justify-center.text-white",
+        "epTitle": "div.flex-grow.min-w-0 > h4 > a",
+        "epDate": "div.flex-grow.min-w-0 > span"
+      }
+    },
+    "stream": {
+      "defaultIframe": "#player-frame-wrapper > iframe",
+      "mirrorOption": "",
+      "downloadLink": ""
+    }
+  }
+}

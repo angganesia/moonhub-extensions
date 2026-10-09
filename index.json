@@ -1,6 +1,6 @@
 {
   "name": "MoonHub Official Extensions Repository",
-  "updatedAt": "2026-10-07T23:28:30.683Z",
+  "updatedAt": "2026-10-09T04:21:45.572Z",
   "version": "1.0.0",
   "extensions": [
     {
@@ -12,6 +12,16 @@
       "isNsfw": false,
       "icon": "https://www.google.com/s2/favicons?domain=anoboy.be&sz=128",
       "scriptUrl": "https://raw.githubusercontent.com/angganesia/moonhub-extensions/main/anime/anoboybe.json"
+    },
+    {
+      "id": "samehadaku",
+      "name": "Samehadaku",
+      "version": "1.0.0",
+      "type": "anime",
+      "lang": "id",
+      "isNsfw": false,
+      "icon": "https://www.google.com/s2/favicons?domain=v2.samehadaku.how&sz=128",
+      "scriptUrl": "https://raw.githubusercontent.com/angganesia/moonhub-extensions/main/anime/samehadaku.json"
     },
     {
       "id": "kiryuu",
