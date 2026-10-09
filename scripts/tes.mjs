@@ -91,11 +91,13 @@ console.log("FINAL URL: " + finalUrl)
 
         const dataSearch = []
         $(selectorSearch.item).each((idx,el) => {
+          const e = $(el)
+          
           dataSearch.push({
             id: ++idx,
-            link: $(el).find(selectorSearch.link).attr("href"),
-            title: $(el).find(selectorSearch.titleAttr).text().trim(),
-            coverAttr: $(el).find(selectorSearch.coverAttr).attr("src")
+            link: e.find(selectorSearch.link).attr("href"),
+            title: e.find(selectorSearch.titleAttr).text().trim(),
+            coverAttr: e.find(selectorSearch.coverAttr).attr("src")
           })
         })
 

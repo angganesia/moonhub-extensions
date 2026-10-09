@@ -3,7 +3,7 @@
     "id": "samehadaku",
     "name": "Samehadaku",
     "baseUrl": "https://v2.samehadaku.how",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "anime",
     "lang": "id",
     "isNsfw": false
@@ -28,13 +28,13 @@
       "item": "html > body > main#content > div > div.flex-grow.min-w-0.w-full > div > div.relat > div:nth-of-type(1) > article",
       "titleAttr": "div.animposx > a > div.data > div.title > h2",
       "coverAttr": "div.animposx > a > div.content-thumb > img.anmsa",
-      "link": "div.animposx > a > div.data > div.title > h2"
+      "link": "div.animposx > a"
     },
     "filter": {
       "item": "html > body > main#content > div > div.flex-grow.min-w-0.w-full > div > div.relat > div:nth-of-type(1) > article",
       "titleAttr": "div.animposx > a > div.data > div.title > h2",
       "coverAttr": "div.animposx > a > div.content-thumb > img.anmsa",
-      "link": "div.animposx > a > div.data > div.title > h2"
+      "link": "div.animposx > a"
     },
     "optionList": {
       "groups": [
