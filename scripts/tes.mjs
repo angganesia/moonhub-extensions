@@ -10,8 +10,8 @@ const selectors = g.selectors;
 async function scrap(action, url, args = {}) {
   try {
     console.log("[LOG] mulai scrap: " + action);
-    let page = args?.page || "1"
-    let query = args?.query || ""
+    let page = args?.page || "1";
+    let query = args?.query || "";
 
     let data;
     let $;
@@ -70,38 +70,42 @@ async function scrap(action, url, args = {}) {
         const selectorStream = selectors.stream;
 
         const defaultIframe = $(selectorStream.defaultIframe).attr("src");
+        const urlDetail = $("html > body > main#content > div.post-single > div#breadcrumbs > ol > li:nth-of-type(3) > a").attr("href") || $("html > body > div#content > div.wrapper > div.postbody > article#post-18492 > div.megavid > div.mvelement > div.naveps.bignav > div.nvs.nvsc > a").attr("href") || ""
         console.log(defaultIframe);
+        console.log(urlDetail);
         break;
       case "search":
-        const selectorSearch = selectors.search
-        const endpointSearch = endpoints.search
-        const endpointFinal = endpointSearch.replace("{page}", page).replace("{query}", query)
+        const selectorSearch = selectors.search;
+        const endpointSearch = endpoints.search;
+        const endpointFinal = endpointSearch
+          .replace("{page}", page)
+          .replace("{query}", query);
 
-        const finalUrl = host + endpointFinal
-console.log("FINAL URL: " + finalUrl)
+        const finalUrl = host + endpointFinal;
+        console.log("FINAL URL: " + finalUrl);
         const res = await axios.get(finalUrl, {
           headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Android 15; Mobile; rv:157.0) Gecko/157.0 Firefox/157.0"
-        },
-        timeout: 7000 
-        })
+            "User-Agent":
+              "Mozilla/5.0 (Android 15; Mobile; rv:157.0) Gecko/157.0 Firefox/157.0"
+          },
+          timeout: 7000
+        });
         const html = res.data;
-        $ = cheerio.load(html)
+        $ = cheerio.load(html);
 
-        const dataSearch = []
-        $(selectorSearch.item).each((idx,el) => {
-          const e = $(el)
-          
+        const dataSearch = [];
+        $(selectorSearch.item).each((idx, el) => {
+          const e = $(el);
+
           dataSearch.push({
             id: ++idx,
             link: e.find(selectorSearch.link).attr("href"),
             title: e.find(selectorSearch.titleAttr).text().trim(),
             coverAttr: e.find(selectorSearch.coverAttr).attr("src")
-          })
-        })
+          });
+        });
 
-        console.log(JSON.stringify(dataSearch,null,2))
+        console.log(JSON.stringify(dataSearch, null, 2));
         break;
       default:
         console.log("tidak ada action");
@@ -111,4 +115,7 @@ console.log("FINAL URL: " + finalUrl)
   }
 }
 
-scrap("search", "", { query: "one piece" });
+const link_a = "https://anoboy.be/one-piece-episode-1179-subtitle-indonesia/"
+const link_b = "https://v2.samehadaku.how/one-piece-episode-1180/"
+
+scrap("watch", link_a, { query: "one piece" });

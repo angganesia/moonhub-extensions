@@ -2,8 +2,9 @@
   "metadata": {
     "id": "samehadaku",
     "name": "Samehadaku",
+    "icon": "https://www.google.com/s2/favicons?domain=v2.samehadaku.how&sz=128",
     "baseUrl": "https://v2.samehadaku.how",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "type": "anime",
     "lang": "id",
     "isNsfw": false
@@ -110,6 +111,7 @@
     },
     "stream": {
       "defaultIframe": "#player-frame-wrapper > iframe",
+      "urlDetail": "div.megavid > div.mvelement > div.naveps.bignav > div.nvs.nvsc > a",
       "mirrorOption": "",
       "downloadLink": ""
     }

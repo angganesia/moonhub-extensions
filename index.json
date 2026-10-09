@@ -1,12 +1,12 @@
 {
   "name": "MoonHub Official Extensions Repository",
-  "updatedAt": "2026-10-09T06:56:37.605Z",
+  "updatedAt": "2026-10-09T12:24:47.825Z",
   "version": "1.0.0",
   "extensions": [
     {
       "id": "anoboybe",
       "name": "AnoboyBe",
-      "version": "1.2.6",
+      "version": "1.2.7",
       "type": "anime",
       "lang": "id",
       "isNsfw": false,
@@ -16,7 +16,7 @@
     {
       "id": "samehadaku",
       "name": "Samehadaku",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "type": "anime",
       "lang": "id",
       "isNsfw": false,

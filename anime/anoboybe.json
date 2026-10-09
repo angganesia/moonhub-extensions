@@ -2,8 +2,9 @@
   "metadata": {
     "id": "anoboybe",
     "name": "AnoboyBe",
+    "icon": "https://www.google.com/s2/favicons?domain=anoboy.be&sz=128",
     "baseUrl": "https://anoboy.be",
-    "version": "1.2.6",
+    "version": "1.2.7",
     "type": "anime",
     "lang": "id",
     "isNsfw": false
@@ -110,6 +111,7 @@
     },
     "stream": {
       "defaultIframe": "#pembed iframe",
+      "urlDetail": "html > body > main#content > div.post-single > div#breadcrumbs > ol > li:nth-of-type(3) > a",
       "mirrorOption": ".mirror option",
       "downloadLink": ".soraurlx a"
     }
