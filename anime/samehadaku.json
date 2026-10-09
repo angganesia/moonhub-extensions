@@ -4,7 +4,7 @@
     "name": "Samehadaku",
     "icon": "https://www.google.com/s2/favicons?domain=v2.samehadaku.how&sz=128",
     "baseUrl": "https://v2.samehadaku.how",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "type": "anime",
     "lang": "id",
     "isNsfw": false
@@ -111,7 +111,7 @@
     },
     "stream": {
       "defaultIframe": "#player-frame-wrapper > iframe",
-      "urlDetail": "html > body > main#content > div.post-single > div:nth-of-type(2) > div > article#post-54232 > div.naveps > div.nvs.nvsc > a",
+      "urlDetail": "div.naveps > div.nvs.nvsc > a",
       "mirrorOption": "",
       "downloadLink": ""
     }

@@ -1,7 +1,7 @@
 // tes.mjs
 import axios from "axios";
 import * as cheerio from "cheerio";
-import g from "../anime/anoboybe.json" with { type: "json" };
+import g from "../anime/samehadaku.json" with { type: "json" };
 
 const host = g.metadata.baseUrl;
 const endpoints = g.endpoints;
@@ -118,4 +118,4 @@ async function scrap(action, url, args = {}) {
 const link_a = "https://anoboy.be/one-piece-episode-1179-subtitle-indonesia/"
 const link_b = "https://v2.samehadaku.how/one-piece-episode-1180/"
 
-scrap("watch", link_a, { query: "one piece" });
+scrap("watch", link_b, { query: "one piece" });
